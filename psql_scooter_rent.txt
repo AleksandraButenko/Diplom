@@ -1,0 +1,48 @@
+АЛЕКСАНДРА БУТЕНКО, 10 КОГОРТА, ФИНАЛЬНЫЙ ПРОЕКТ. ИНЖЕНЕР ПО ТЕСТИРОВАНИЮ ПЛЮС
+
+РАБОТА С БАЗОЙ ДАННЫХ ПРИЛОЖЕНИЯ ЯНДЕКС САМОКАТ
+
+--Задание 1
+
+--Создать курьера
+INSERT INTO 
+"Couriers"
+(login,"firstName","createdAt","updatedAt")
+VALUES
+('Buten','Stas','2023-11-15','2023-11-16');
+
+
+--Посмотреть id добавленного курьера
+SELECT *
+FROM "Couriers";
+--Ответ: таблица с id курьера
+
+
+--Создать заказ с использованием id курьера
+INSERT INTO 
+"Orders"
+("courierId","firstName","lastName",address,"metroStation",phone,"rentTime","deliveryDate", "inDelivery","createdAt","updatedAt")
+VALUES 
+(1,'Vera','Sidorova','Mira 2','4','+78003553535',1,'2023-11-21',true,'2023-11-18','2023-11-18');
+
+
+--Вывести список логинов курьеров с количеством их заказов в статусе "В доставке" (поле inDelivery = true)
+
+SELECT c.login, COUNT(*)
+FROM "Couriers" AS c
+INNER JOIN "Orders" AS o ON
+c.id = o."courierId" AND o."inDelivery" = true
+GROUP BY c.login;
+
+
+--Задание 2
+
+--Вывести все трекеры заказов и их статусы:
+SELECT track,
+	CASE
+		WHEN finished = true THEN 2
+		WHEN cancelled = true THEN -1
+		WHEN "inDelivery" = true THEN 1
+		ELSE 0
+	END
+FROM "Orders";	
